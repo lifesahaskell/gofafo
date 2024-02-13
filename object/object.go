@@ -63,7 +63,7 @@ type Function struct {
 }
 
 func (f *Function) Type() ObjectType { return FUNCTION_OBJ }
-func (f *Function) Inspect() string  { 
+func (f *Function) Inspect() string {
 	var out bytes.Buffer
 
 	params := []string{}
@@ -79,4 +79,4 @@ func (f *Function) Inspect() string  {
 	out.WriteString("\n}")
 
 	return out.String()
- }
+}
