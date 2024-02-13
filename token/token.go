@@ -26,8 +26,10 @@ const (
 	ASTERISK = "*"
 	SLASH    = "/"
 
-	LESS_THAN    = "<"
-	GREATER_THAN = ">"
+	LESS_THAN       = "<"
+	GREATER_THAN    = ">"
+	LESS_THAN_EQ    = "<="
+	GREATER_THAN_EQ = ">="
 
 	// Delimiters
 	COMMA     = ","
