@@ -110,7 +110,7 @@ func checkParserErrors(t *testing.T, p *Parser) {
 
 	t.Errorf("parser had %d errors", len(errors))
 	for _, msg := range errors {
-		t.Errorf("parser error: %q", msg)
+		t.Errorf("\tparser error: %q", msg)
 	}
 	t.FailNow()
 }
@@ -317,6 +317,8 @@ func TestParsingInfixExpressions(t *testing.T) {
 		{"5 / 5;", 5, "/", 5},
 		{"5 > 5;", 5, ">", 5},
 		{"5 < 5;", 5, "<", 5},
+		{"5 >= 5;", 5, ">=", 5},
+		{"5 <= 5;", 5, "<=", 5},
 		{"5 == 5;", 5, "==", 5},
 		{"5 != 5;", 5, "!=", 5},
 		{"true == true;", true, "==", true},
@@ -748,7 +750,7 @@ func TestParsingIndexExpressions(t *testing.T) {
 		return
 	}
 
-    if !testInfixExpression(t, indexExp.Index, 1, "+", 1){
+	if !testInfixExpression(t, indexExp.Index, 1, "+", 1) {
 		return
 	}
 }

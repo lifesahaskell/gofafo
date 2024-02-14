@@ -21,16 +21,18 @@ const (
 )
 
 var precedences = map[token.TokenType]int{
-	token.EQUALS:       EQUALS,
-	token.NOT_EQUALS:   EQUALS,
-	token.LESS_THAN:    LESSGREATER,
-	token.GREATER_THAN: LESSGREATER,
-	token.PLUS:         SUM,
-	token.MINUS:        SUM,
-	token.SLASH:        PRODUCT,
-	token.ASTERISK:     PRODUCT,
-	token.LPAREN:       CALL,
-	token.LSQUARE:      INDEX,
+	token.EQUALS:          EQUALS,
+	token.NOT_EQUALS:      EQUALS,
+	token.GREATER_THAN_EQ: EQUALS,
+	token.LESS_THAN_EQ:    EQUALS,
+	token.LESS_THAN:       LESSGREATER,
+	token.GREATER_THAN:    LESSGREATER,
+	token.PLUS:            SUM,
+	token.MINUS:           SUM,
+	token.SLASH:           PRODUCT,
+	token.ASTERISK:        PRODUCT,
+	token.LPAREN:          CALL,
+	token.LSQUARE:         INDEX,
 }
 
 type (
@@ -77,6 +79,8 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.GREATER_THAN, p.parseInfixExpression)
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
 	p.registerInfix(token.LSQUARE, p.parseIndexExpression)
+	p.registerInfix(token.LESS_THAN_EQ, p.parseInfixExpression)
+	p.registerInfix(token.GREATER_THAN_EQ, p.parseInfixExpression)
 
 	p.nextToken()
 	p.nextToken()
