@@ -21,6 +21,7 @@ const (
 	BUILTIN_OBJ      = "BUILTIN"
 	ARRAY_OBJ        = "ARRAY"
 	HASH_OBJ         = "HASH"
+	STRUCT_OBJ       = "STRUCT"
 )
 
 type Object interface {
@@ -165,8 +166,8 @@ func (ho *Hash) Inspect() string {
 
 	pairs := []string{}
 	for _, pair := range ho.Pairs {
-		pairs = append(pairs, fmt.Sprintf("%s: %s", 
-		pair.Key.Inspect(), pair.Value.Inspect()))
+		pairs = append(pairs, fmt.Sprintf("%s: %s",
+			pair.Key.Inspect(), pair.Value.Inspect()))
 	}
 
 	out.WriteString("{")
@@ -178,4 +179,26 @@ func (ho *Hash) Inspect() string {
 
 type Hashable interface {
 	HashKey() HashKey
+}
+
+type Struct struct {
+	Fields []*ast.Identifier
+	Env    *Environment
+}
+
+func (s *Struct) Type() ObjectType { return STRUCT_OBJ }
+func (s *Struct) Inspect() string {
+	var out bytes.Buffer
+
+	fields := []string{}
+	for _, f := range s.Fields {
+		fields = append(fields, "\t" + f.String())
+	}
+
+	out.WriteString("struct ")
+	out.WriteString("{\n")
+	out.WriteString(strings.Join(fields, ",\n"))
+	out.WriteString("\n}")
+
+	return out.String()
 }

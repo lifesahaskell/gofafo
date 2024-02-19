@@ -101,6 +101,9 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 	case *ast.HashLiteral:
 		return evalHashLiteral(node, env)
+	case *ast.StructExpression:
+		fields := node.Fields
+		return &object.Struct{Fields: fields, Env: env}
 	}
 
 	return nil

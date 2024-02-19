@@ -854,3 +854,29 @@ func TestParsingHashLiteralsWithExpressions(t *testing.T) {
 		testFunc(value)
 	}
 }
+
+func TestParsingStructExpressions(t *testing.T) {
+	input := `struct {
+		foo,
+		bar
+	};`
+
+	l := lexer.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	stmt := program.Statements[0].(*ast.ExpressionStatement)
+	strct, ok := stmt.Expression.(*ast.StructExpression)
+	if !ok {
+		t.Fatalf("exp not *ast.StructExpression got=%T", stmt.Expression)
+	}
+
+	fields := strct.Fields
+	if len(fields) != 2 {
+		t.Errorf("fields has wrong length. got=%d", len(fields))
+	}
+	
+	testLiteralExpression(t, fields[0], "foo")
+	testLiteralExpression(t, fields[1], "bar")
+}

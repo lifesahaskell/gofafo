@@ -543,3 +543,26 @@ func TestHashIndexExpressions(t *testing.T) {
 		}
 	}
 }
+
+func TestStructObject(t *testing.T) {
+	input := "struct { x, y };"
+
+	evaluated := testEval(input)
+	strct, ok := evaluated.(*object.Struct)
+	if !ok {
+		t.Errorf("object is not Struct. got=%T (%+v)", evaluated, evaluated)
+	}
+
+	if len(strct.Fields) != 2 {
+		t.Fatalf("struct has wrong fields. Fields=%+v", strct.Fields)
+	}
+
+	if strct.Fields[0].String() != "x" {
+		t.Fatalf("field is not 'x'. got=%q", strct.Fields[0])
+	}
+	
+	if strct.Fields[1].String() != "y" {
+		t.Fatalf("field is not 'y'. got=%q", strct.Fields[0])
+	}
+
+}

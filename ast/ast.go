@@ -334,3 +334,26 @@ func (hl *HashLiteral) String() string {
 
 	return out.String()
 }
+
+type StructExpression struct {
+	Token token.Token
+	Fields []*Identifier
+}
+
+func (se *StructExpression) expressionNode()      {}
+func (se *StructExpression) TokenLiteral() string { return se.Token.Literal }
+func (se *StructExpression) String() string {
+	var out bytes.Buffer
+	out.WriteString(se.Token.Literal)
+
+	fields := []string{}
+	for _, field := range se.Fields {
+		fields = append(fields, field.String())
+	}
+
+	out.WriteString("{")
+	out.WriteString(strings.Join(fields, ", "))
+	out.WriteString("}")
+
+	return out.String()
+}
