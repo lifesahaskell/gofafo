@@ -9,19 +9,18 @@ import (
 
 type Compiler struct {
 	instructions code.Instructions
-	constants []object.Object
+	constants    []object.Object
 }
 
 type Bytecode struct {
 	Instructions code.Instructions
-	Constants []object.Object
-
+	Constants    []object.Object
 }
 
 func New() *Compiler {
 	return &Compiler{
 		instructions: code.Instructions{},
-		constants: []object.Object{},
+		constants:    []object.Object{},
 	}
 }
 
@@ -40,7 +39,21 @@ func (c *Compiler) Compile(node ast.Node) error {
 			return err
 		}
 		c.emit(code.OpPop)
-	case *ast.InfixExpression: 
+	case *ast.PrefixExpression:
+		err := c.Compile(node.Right)
+		if err != nil {
+			return err
+		}
+
+		switch node.Operator {
+		case "!":
+			c.emit(code.OpBang)
+		case "-":
+			c.emit(code.OpMinus)
+		default:
+			return fmt.Errorf("unknown operator %s", node.Operator)
+		}
+	case *ast.InfixExpression:
 		if node.Operator == "<" {
 			err := c.Compile(node.Right)
 			if err != nil {
@@ -72,20 +85,20 @@ func (c *Compiler) Compile(node ast.Node) error {
 		case "*":
 			c.emit(code.OpMul)
 		case "/":
-			c.emit(code.OpDiv)	
+			c.emit(code.OpDiv)
 		case ">":
-			c.emit(code.OpGreaterThan)	
+			c.emit(code.OpGreaterThan)
 		case "==":
-			c.emit(code.OpEqual)	
+			c.emit(code.OpEqual)
 		case "!=":
-			c.emit(code.OpNotEqual)	
+			c.emit(code.OpNotEqual)
 		default:
 			return fmt.Errorf("unknown operator %s", node.Operator)
 		}
-	
+
 	case *ast.IntegerLiteral:
 		integer := &object.Integer{Value: node.Value}
-		c. emit(code.OpConstant, c.addConstant(integer))
+		c.emit(code.OpConstant, c.addConstant(integer))
 	case *ast.Boolean:
 		if node.Value {
 			c.emit(code.OpTrue)
@@ -93,14 +106,14 @@ func (c *Compiler) Compile(node ast.Node) error {
 			c.emit(code.OpFalse)
 		}
 	}
-	
+
 	return nil
 }
 
 func (c *Compiler) Bytecode() *Bytecode {
-	return &Bytecode {
+	return &Bytecode{
 		Instructions: c.instructions,
-		Constants: c.constants,
+		Constants:    c.constants,
 	}
 }
 
@@ -108,7 +121,6 @@ func (c *Compiler) addConstant(obj object.Object) int {
 	c.constants = append(c.constants, obj)
 	return len(c.constants) - 1
 }
-
 
 func (c *Compiler) emit(op code.Opcode, operands ...int) int {
 	ins := code.Make(op, operands...)
@@ -121,4 +133,3 @@ func (c *Compiler) addInstruction(ins []byte) int {
 	c.instructions = append(c.instructions, ins...)
 	return posNewInstructions
 }
-
