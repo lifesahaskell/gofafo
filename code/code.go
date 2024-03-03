@@ -24,8 +24,12 @@ const (
 
 	OpTrue
 	OpFalse
+	OpNull
 
 	OpPop
+
+	OpJumpNotTruthy
+	OpJump
 )
 
 type Definition struct {
@@ -48,8 +52,11 @@ var definitions = map[Opcode]*Definition{
 
 	OpTrue:  {"OpTrue", []int{}},
 	OpFalse: {"OpFalse", []int{}},
+	OpNull:  {"OpNull", []int{}},
 
-	OpPop: {"OpPop", []int{}},
+	OpPop:           {"OpPop", []int{}},
+	OpJumpNotTruthy: {"OpJumpNotTruthy", []int{2}},
+	OpJump:          {"OpJump", []int{2}},
 }
 
 func Lookup(op byte) (*Definition, error) {
