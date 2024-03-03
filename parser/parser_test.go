@@ -876,7 +876,7 @@ func TestParsingStructExpressions(t *testing.T) {
 	if len(fields) != 2 {
 		t.Errorf("fields has wrong length. got=%d", len(fields))
 	}
-	
+
 	testLiteralExpression(t, fields[0], "foo")
 	testLiteralExpression(t, fields[1], "bar")
 }

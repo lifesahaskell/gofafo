@@ -51,7 +51,7 @@ const (
 	IF       = "IF"
 	ELSE     = "ELSE"
 	RETURN   = "RETURN"
-	STRUCT = "STRUCT"
+	STRUCT   = "STRUCT"
 )
 
 var keywords = map[string]TokenType{

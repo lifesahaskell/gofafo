@@ -162,7 +162,7 @@ func TestNextToken(t *testing.T) {
 		{token.IDENT, "bar"},
 		{token.RBRACE, "}"},
 		{token.SEMICOLON, ";"},
-		
+
 		{token.EOF, ""},
 	}
 
