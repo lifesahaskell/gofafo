@@ -192,7 +192,7 @@ func (s *Struct) Inspect() string {
 
 	fields := []string{}
 	for _, f := range s.Fields {
-		fields = append(fields, "\t" + f.String())
+		fields = append(fields, "\t"+f.String())
 	}
 
 	out.WriteString("struct ")

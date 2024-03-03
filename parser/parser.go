@@ -484,9 +484,9 @@ func (p *Parser) parseHashLiteral() ast.Expression {
 }
 
 func (p *Parser) parseStructExpression() ast.Expression {
-	lit := &ast.StructExpression{Token: p.curToken}	
+	lit := &ast.StructExpression{Token: p.curToken}
 	p.nextToken()
 	lit.Fields = p.parseIdentiferList(token.RBRACE)
-	
+
 	return lit
 }

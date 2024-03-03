@@ -500,7 +500,7 @@ func TestHashLiterals(t *testing.T) {
 
 func TestHashIndexExpressions(t *testing.T) {
 	tests := []struct {
-		input string
+		input    string
 		expected interface{}
 	}{
 		{
@@ -560,7 +560,7 @@ func TestStructObject(t *testing.T) {
 	if strct.Fields[0].String() != "x" {
 		t.Fatalf("field is not 'x'. got=%q", strct.Fields[0])
 	}
-	
+
 	if strct.Fields[1].String() != "y" {
 		t.Fatalf("field is not 'y'. got=%q", strct.Fields[0])
 	}

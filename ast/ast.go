@@ -336,7 +336,7 @@ func (hl *HashLiteral) String() string {
 }
 
 type StructExpression struct {
-	Token token.Token
+	Token  token.Token
 	Fields []*Identifier
 }
 
